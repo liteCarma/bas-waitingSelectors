@@ -18,7 +18,8 @@ var codeVariables = {
 }
 
 var selectors = {}
-for (i = 1; i <= 20; i++) {
+var countInputs =  document.querySelectorAll('.input_selector_string[id^="sel"]').length
+for (i = 1; i <= countInputs; i++) {
   var id = 'sel' + i
   var sel = GetInputConstructorValue(id, loader)
   var isValid = ValidateSelector(sel["original"])
