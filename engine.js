@@ -4,6 +4,7 @@ function waitingSelectors(){
 
   _resultSel = {}
   for (key in _selectors) {
+    _resultSel[key] = false
     var val = _selectors[key]
     val.sel = eval(val.sel)
   }
