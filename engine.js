@@ -23,6 +23,9 @@ function waitingSelectors(){
     var isImgSel = /^\s*>img:\d+:(?:scroll|no scroll)>/.test(_selectors[_key].sel)
     _call(function(){
       _on_fail(function(){
+        VAR_LAST_ERROR = _result()
+        VAR_ERROR_ID = ScriptWorker.GetCurrentAction()
+        VAR_WAS_ERROR = false
         _break(1,true)
       })
 
@@ -39,12 +42,17 @@ function waitingSelectors(){
         _resultSel[_key] = _result() == 1
       }, function() {
         var val = _selectors[_key]
-        get_element_selector(val.sel, false).nowait().script2("let exist = self !== null;\r\nif (" + val.visible + " && exist) {\r\n    const box = self.getBoundingClientRect();\r\n    const doc = document.documentElement;\r\n exist  =  document.readyState != 'loading' && box.width > 10 && box.height > 10 && box.top + box.height >= 0 && box.left + box.width >= 0 && box.right <= doc.scrollWidth && box.bottom <= doc.scrollHeight;\r\n};[\[_IS_EXIST]\]=exist",_read_variables(["VAR__IS_EXIST"]))!
+        get_element_selector(val.sel, false).script2("let exist = self !== null; if (exist && " + val.visible + ") { const box = self.getBoundingClientRect(); const doc = document.documentElement; exist = document.readyState != 'loading' && box.width > 10 && box.height > 10 && box.top + box.height >= 0 && box.left + box.width >= 0 && box.right <= doc.scrollWidth && box.bottom <= doc.scrollHeight; } if (exist && " + val.visible + " ) { const { display, visibility } = window.getComputedStyle(self); exist = display !== 'none' && visibility !== 'hidden' } \r\n[[_IS_EXIST]]= exist",JSON.stringify(_read_variables(["VAR__IS_EXIST"])))!
         var variables = JSON.parse(_result()).variables
         _resultSel[_key] = JSON.parse(variables)['_IS_EXIST']
       })!
     },null)!
 
+    _if (++_index >= _selKeys.length, function() {
+      sleep(1000)!
+      _index = 0
+    })!
+    
     var timeWork = Date.now() - _startTime
     _resultSel.timeout = timeWork >= _timeout
     _resultSel.time = timeWork
@@ -58,10 +66,7 @@ function waitingSelectors(){
       _break('function')
     }
 
-    _if (++_index >= _selKeys.length, function() {
-      sleep(1000)!
-      _index = 0
-    })!
+
   })!
 
   _function_return(_resultSel)
