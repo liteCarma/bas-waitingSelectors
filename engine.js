@@ -54,12 +54,13 @@ function waitingSelectors(){
     })!
     
     var timeWork = Date.now() - _startTime
-    _resultSel.timeout = timeWork >= _timeout
     _resultSel.time = timeWork
 
     var isExist = _resultSel[_key]
     if (isExist) {
       _resultSel.foundSel = _selectors[_key].sel
+    } else {
+      _resultSel.timeout = timeWork >= _timeout
     }
 
     if (isExist || _resultSel.timeout) {
