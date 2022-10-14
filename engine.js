@@ -46,6 +46,10 @@ function waitingSelectors(){
         var variables = JSON.parse(_result()).variables
         _resultSel[_key] = JSON.parse(variables)['_IS_EXIST']
       })!
+
+      if (VAR_LAST_ERROR === 'Aborted By User' || VAR_LAST_ERROR === 'Прервано Пользователем') {
+        _break('function')
+      }
     },null)!
 
     _if (++_index >= _selKeys.length, function() {
