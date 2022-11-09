@@ -42,15 +42,15 @@ function waitingSelectors(){
         _resultSel[_key] = _result() == 1
       }, function() {
         var val = _selectors[_key]
-        get_element_selector(val.sel, false).script2("let exist = self !== null; if (exist && " + val.visible + ") { const box = self.getBoundingClientRect(); const doc = document.documentElement; exist = document.readyState != 'loading' && box.width > 10 && box.height > 10 && box.top + box.height >= 0 && box.left + box.width >= 0 && box.right <= doc.scrollWidth && box.bottom <= doc.scrollHeight; } if (exist && " + val.visible + " ) { const { display, visibility, opacity } = window.getComputedStyle(self); exist = display !== 'none' && visibility !== 'hidden' && opacity > 0 } \r\n[[_IS_EXIST]]= exist",JSON.stringify(_read_variables(["VAR__IS_EXIST"])))!
+        get_element_selector(val.sel, false).script2("function checkElIsExist(checkVisibility){if(document.readyState!='loading'){const box=self.getBoundingClientRect();if(!checkVisibility){return self!==null;};const{visibility,opacity}=window.getComputedStyle(self);if(visibility==='hidden'||opacity===0){return false;};const doc=document.documentElement;if(box.width===0||box.height===0){return false;};if(doc.scrollLeft+box.right<0||doc.scrollTop+box.bottom<0){return false};return true;}};[[_IS_EXIST]]=checkElIsExist(" + val.visible + ")",JSON.stringify(_read_variables(["VAR__IS_EXIST"])))!
         var variables = JSON.parse(_result()).variables
         _resultSel[_key] = JSON.parse(variables)['_IS_EXIST']
       })!
-
-      if (VAR_LAST_ERROR === 'Aborted By User' || VAR_LAST_ERROR === 'Прервано Пользователем') {
-        _break('function')
-      }
     },null)!
+    
+    if (VAR_WAS_ERROR && (VAR_LAST_ERROR === 'Aborted By User' || VAR_LAST_ERROR === 'Прервано Пользователем')) {
+        _break('function')
+    }
 
     _if (++_index >= _selKeys.length, function() {
       sleep(1000)!
@@ -76,4 +76,3 @@ function waitingSelectors(){
 
   _function_return(_resultSel)
 }
-
