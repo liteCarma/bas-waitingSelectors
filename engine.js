@@ -43,8 +43,12 @@ function waitingSelectors(){
       }, function() {
         var val = _selectors[_key]
         get_element_selector(val.sel, false).script2("function checkElIsExist(checkVisibility){if(document.readyState!='loading'){const box=self.getBoundingClientRect();if(!checkVisibility){return self!==null;};const{visibility,opacity}=window.getComputedStyle(self);if(visibility==='hidden'||opacity===0){return false;};const doc=document.documentElement;if(box.width===0||box.height===0){return false;};if(doc.scrollLeft+box.right<0||doc.scrollTop+box.bottom<0){return false};return true;}};[[_IS_EXIST]]=checkElIsExist(" + val.visible + ")",JSON.stringify(_read_variables(["VAR__IS_EXIST"])))!
-        var variables = JSON.parse(_result()).variables
-        _resultSel[_key] = JSON.parse(variables)['_IS_EXIST'] || false
+        if (_result() !== '') {
+          var variables = JSON.parse(_result()).variables
+          _resultSel[_key] = JSON.parse(variables)['_IS_EXIST'] || false
+        } else {
+          _resultSel[_key] = false
+        }
       })!
     },null)!
     
