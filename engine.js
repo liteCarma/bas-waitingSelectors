@@ -42,7 +42,7 @@ function waitingSelectors(){
         _resultSel[_key] = _result() == 1
       }, function() {
         var val = _selectors[_key]
-        get_element_selector(val.sel, false).script2("function checkElIsExist(checkVisibility){if(!self)return false;if(document.readyState!='loading'){const box=self.getBoundingClientRect();if(!checkVisibility){return self!==null;};const{visibility,opacity}=window.getComputedStyle(self);if(visibility==='hidden'||opacity===0){return false;};const doc=document.documentElement;if(Math.floor(box.width)===0||Math.floor(box.height)===0){return false;};if(doc.scrollLeft+Math.floor(box.right)<0||doc.scrollTop+Math.floor(box.bottom)<0){return false};return true;}};[\[_IS_EXIST\]]=checkElIsExist(" + val.visible + ")",JSON.stringify(_read_variables(["VAR__IS_EXIST"])))!
+        get_element_selector(val.sel, false).script2("function checkElIsExist(checkVisibility){if(!self)return false;if(document.readyState!='loading'){const box=self.getBoundingClientRect();if(!checkVisibility){return self!==null;};const{visibility,opacity}=window.getComputedStyle(self);if(visibility==='hidden'||opacity===0){return false;};const doc=document.documentElement;if(Math.floor(box.width)< 1||Math.floor(box.height)<1){return false;};if(doc.scrollLeft+Math.floor(box.right)<0||doc.scrollTop+Math.floor(box.bottom)<0){return false};return true;}};[\[_IS_EXIST\]]=checkElIsExist(" + val.visible + ")",JSON.stringify(_read_variables(["VAR__IS_EXIST"])))!
         if (_result() !== '') {
           var variables = JSON.parse(_result()).variables
           _resultSel[_key] = JSON.parse(variables)['_IS_EXIST'] || false
